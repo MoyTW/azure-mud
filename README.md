@@ -228,3 +228,40 @@ If you're looking to get involved: awesome! There's a "Good First Issue" tag in 
 Fork this repo, make your changes, open a pull request! Once you've contributed, I'm fairly liberal with granting people contributor access, but the `main` branch is still locked.
 
 Pull requests are run through a few automated checks. If the `ESLint` checks fail, first try running `npm run lint-fix` to try to automatically fix as many of the errors as you can; anything that doesn't catch will need to be fixed manually.
+
+# TODO: Firebase 2024 issue
+
+for future: https://github.com/firebase/quickstart-js/blob/master/auth/README.md
+will try #3 from here: https://firebase.google.com/docs/auth/web/redirect-best-practices#web_1
+how to enable proxies: https://learn.microsoft.com/en-us/azure/azure-functions/legacy-proxies#re-enable-proxies-in-functions-v4x
+
+TODO: Add to README note on adding feature flags
++ Add AzureWebJobsFeatureFlags with a value of EnableProxies
+(done on my dev, not on prod, TODO that)
+
+NOTE THAT THIS WILL TURN OFF 2025 soooo good luck to me then
+maybe look at this https://demiliani.com/2022/12/27/are-you-using-proxies-with-azure-functions-start-moving-to-azure-api-management/
+
+Notes:
++ I changed the .env to match server_hostname (dev-2023-2.azurewebsites.net)
+
+## Issue: invalid OAuth redirect
++ ok once you change the proxies file AND change the .env file (AND change the FIREBASE_AUTH_DOMAIN) you'll try to log in and get this:
+
+Error 400: redirect_uri_mismatch
+
+You can't sign in to this app because it doesn't comply with Google's OAuth 2.0 policy.
+
+If you're the app developer, register the redirect URI in the Google Cloud Console.
+Request details: redirect_uri=https://dev-2023-2.azurewebsites.net/__/auth/handler flowName=GeneralOAuthFlow
+GO TO: https://console.cloud.google.com/apis/credentials?pli=1&project=roguelike-celebration-dev
+  - Under OAuth 2.0 Client IDs add in the redirect sections at the bottom https://<FIREBASE_AUTH_DOMAIN>/__/auth/handler
+  - I also added it to the JS URIs just for good measure
+  - idk why there are 2 of 'em I just added to both
+  - wait like 2 hours I guess!?
+
+  FIREBASE_AUTH_DOMAIN=dev-2023-2.azurewebsites.net
+
+NOTE: I can't seem to develop locally I'm gonna try pushing it to my repo
+  - turns out I didn't have, like, the Actions set up
+  - rip I set it up I hope this works
