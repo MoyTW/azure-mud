@@ -1,6 +1,8 @@
 name: Production Build and Deploy
 
-on: workflow_dispatch
+on:
+  push:
+    branches: [dev]
 
 jobs:
   build-and-deploy:
